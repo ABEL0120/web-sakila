@@ -1,4 +1,5 @@
 import { useState } from "react";
+import NavBar from "../NavBar";
 
 export default function MovieApp() {
   const [search, setSearch] = useState("");
@@ -50,9 +51,9 @@ export default function MovieApp() {
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   return (
-    <div className="flex flex-col min-h-screen bg-black text-white">
+    <div className="flex flex-col bg-black text-white w-full h-full overflow-hidden">
       <header className="flex justify-between items-center p-4 bg-[#141414]">
-        <h1 className="text-3xl font-bold text-red-600">MovieApp</h1>
+        <h1 className="text-3xl font-bold text-red-600">Inicio</h1>
       </header>
 
       <div className="relative w-full h-[500px] bg-[#141414]">
@@ -137,7 +138,6 @@ export default function MovieApp() {
               className="w-full h-64"
               src={selectedMovie.trailer}
               title="Trailer"
-              frameBorder="0"
               allowFullScreen
             ></iframe>
             <p className="text-gray-300 mt-4">{selectedMovie.description}</p>
