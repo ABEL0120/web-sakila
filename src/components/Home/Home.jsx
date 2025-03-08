@@ -1,5 +1,4 @@
 import { useState } from "react";
-import NavBar from "../NavBar";
 
 export default function MovieApp() {
   const [search, setSearch] = useState("");
@@ -49,6 +48,13 @@ export default function MovieApp() {
   ];
 
   const [selectedMovie, setSelectedMovie] = useState(null);
+
+  const filteredMovies = movies.filter((movie) => {
+    return (
+      (selectedGenre === "Todos" || movie.genre === selectedGenre) &&
+      movie.title.toLowerCase().includes(search.toLowerCase())
+    );
+  });
 
   return (
     <div className="flex flex-col bg-black text-white w-full h-full overflow-hidden">
@@ -102,7 +108,7 @@ export default function MovieApp() {
       <div className="p-6">
         <h2 className="text-2xl font-bold mb-4">🔥 Películas Populares</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {movies.map((movie) => (
+          {filteredMovies.map((movie) => (
             <div
               key={movie.id}
               className="relative bg-[#141414] rounded-lg overflow-hidden cursor-pointer"
@@ -123,71 +129,6 @@ export default function MovieApp() {
           ))}
         </div>
       </div>
-
-      {selectedMovie && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-          <div className="relative bg-[#141414] p-6 rounded-lg max-w-3xl w-full">
-            <button
-              onClick={() => setSelectedMovie(null)}
-              className="absolute top-2 right-2 text-gray-300 hover:text-white text-2xl"
-            >
-              ×
-            </button>
-            <h2 className="text-2xl font-bold mb-4">{selectedMovie.title}</h2>
-            <iframe
-              className="w-full h-64"
-              src={selectedMovie.trailer}
-              title="Trailer"
-              allowFullScreen
-            ></iframe>
-            <p className="text-gray-300 mt-4">{selectedMovie.description}</p>
-          </div>
-        </div>
-      )}
-
-      <div className="p-6">
-        <h2 className="text-2xl font-bold mb-4">Top 5 Más Valoradas</h2>
-        <ol className="list-decimal list-inside text-gray-300">
-          {movies
-            .sort((a, b) => b.rating - a.rating)
-            .slice(0, 5)
-            .map((movie, index) => (
-              <li key={index} className="mb-2">
-                {movie.title} - ⭐ {movie.rating}
-              </li>
-            ))}
-        </ol>
-      </div>
-
-      <div className="p-6">
-        <h2 className="text-2xl font-bold mb-4">🎞️ Últimos Estrenos</h2>
-        <div className="flex gap-4 overflow-x-auto">
-          {movies
-            .filter((movie) => movie.year >= 2022)
-            .map((movie) => (
-              <div
-                key={movie.id}
-                className="min-w-[200px] bg-[#141414] rounded-lg overflow-hidden"
-              >
-                <img
-                  src={movie.image}
-                  alt={movie.title}
-                  className="w-full h-40 object-cover"
-                />
-                <div className="p-3">
-                  <h3 className="text-lg font-semibold">{movie.title}</h3>
-                  <p className="text-sm text-gray-300">📅 {movie.year}</p>
-                </div>
-              </div>
-            ))}
-        </div>
-      </div>
-
-      <footer className="bg-[#141414] text-center p-4 mt-6">
-        <p className="text-gray-400">
-          © 2024 MovieApp - Todos los derechos reservados
-        </p>
-      </footer>
     </div>
   );
 }
