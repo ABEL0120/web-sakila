@@ -39,13 +39,18 @@ export default function RentMovies() {
     },
   ];
 
-  const handleRent = (movie) => {
+  const handlePrepareToRent = (movie) => {
     setRentedMovies([...rentedMovies, movie]);
     alert(`Has rentado la película: ${movie.title} por ${movie.price}`);
   };
 
+  const handleRentMovies = () => {
+    setRentedMovies([]);
+    alert("¡Procesando pago de rentas! Disfruta tus películas.");
+  };
+
   return (
-    <div className="bg-[#0f0f0f] text-white min-h-screen p-10 flex flex-col items-center">
+    <div className="bg-[#0f0f0f] text-white min-h-screen p-10 flex flex-col items-center relative">
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -83,7 +88,7 @@ export default function RentMovies() {
                 </span>
                 <button
                   className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-all text-white shadow-md"
-                  onClick={() => handleRent(movie)}
+                  onClick={() => handlePrepareToRent(movie)}
                 >
                   Rentar ahora
                 </button>
@@ -94,7 +99,7 @@ export default function RentMovies() {
       </div>
 
       {rentedMovies.length > 0 && (
-        <div className="mt-10 w-full max-w-5xl">
+        <div className="mt-10 w-full max-w-5xl relative">
           <h2 className="text-3xl font-bold text-white mb-4">
             Tus Películas Rentadas
           </h2>
@@ -116,6 +121,12 @@ export default function RentMovies() {
               </div>
             ))}
           </div>
+          <button
+            className="fixed bottom-5 right-5 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all"
+            onClick={() => handleRentMovies()}
+          >
+            Pagar Rentas
+          </button>
         </div>
       )}
     </div>
