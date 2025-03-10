@@ -7,13 +7,17 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import PublicRoute from "../PublicRoute/PublicRoute";
 import { useAuthStore } from "../../utils/auth/auth";
 import Layout from "../Layout";
+import RentMovies from "../RentMovies/page";
 
 const publicRoutes = [
   { path: "/Login", element: <Login /> },
   { path: "/Register", element: <Register /> },
 ];
 
-const privateRoutes = [{ path: "/Home", element: <Home /> }];
+const privateRoutes = [
+  { path: "/Home", element: <Home /> },
+  { path: "/Renta", element: <RentMovies /> },
+];
 
 const AppRouter = () => {
   const user = useAuthStore((state) => state.user);

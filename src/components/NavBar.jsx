@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { Menu, X, ChevronDown } from "lucide-react";
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +21,7 @@ export default function NavBar() {
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="flex items-center hover:text-red-600 transition"
               >
-                Catálogos <ChevronDown className="ml-1 w-4 h- bg-[#141414]" />
+                Catálogos <ChevronDown className="ml-1 w-4 h-4" />
               </button>
               {dropdownOpen && (
                 <div className="absolute top-8 left-0 bg-gray-800 text-white w-48 shadow-md rounded-md">
@@ -53,6 +52,9 @@ export default function NavBar() {
                 </div>
               )}
             </div>
+            <Link to="/Renta" className="hover:text-red-600 transition">
+              Renta
+            </Link>
             <Link to="/servicios" className="hover:text-red-600 transition">
               Servicios
             </Link>
@@ -77,7 +79,7 @@ export default function NavBar() {
           <div className="relative">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="block w-full text-left py-2 px-4 hover:bg-gray-700 justify-between"
+              className="block w-full text-left py-2 px-4 hover:bg-gray-700 flex justify-between"
             >
               Catálogos <ChevronDown className="ml-1 w-4 h-4" />
             </button>
@@ -101,6 +103,9 @@ export default function NavBar() {
               </div>
             )}
           </div>
+          <Link to="/renta" className="block py-2 px-4 hover:bg-gray-700">
+            Renta
+          </Link>
           <Link to="/servicios" className="block py-2 px-4 hover:bg-gray-700">
             Servicios
           </Link>
