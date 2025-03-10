@@ -106,7 +106,7 @@ export default function MovieApp() {
       </div>
 
       <div className="p-6">
-        <h2 className="text-2xl font-bold mb-4">🔥 Películas Populares</h2>
+        <h2 className="text-2xl font-bold mb-4">Películas Populares</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {filteredMovies.map((movie) => (
             <div
@@ -122,9 +122,75 @@ export default function MovieApp() {
               <div className="absolute bottom-0 left-0 w-full p-3 bg-black bg-opacity-60">
                 <h3 className="text-lg font-semibold">{movie.title}</h3>
                 <p className="text-sm text-gray-300">
-                  ⭐ {movie.rating} | 📅 {movie.year}
+                  {movie.rating} | {movie.year}
                 </p>
               </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="p-6">
+        <h2 className="text-2xl font-bold mb-4">Recomendaciones para ti</h2>
+        <p className="text-gray-400">
+          Basado en tu historial de búsqueda y visualización.
+        </p>
+        <div className="flex gap-4 overflow-x-auto">
+          {filteredMovies.slice(0, 5).map((movie) => (
+            <div
+              key={movie.id}
+              className="min-w-[200px] bg-[#141414] rounded-lg overflow-hidden"
+            >
+              <img
+                src={movie.image}
+                alt={movie.title}
+                className="w-full h-40 object-cover"
+              />
+              <div className="p-3">
+                <h3 className="text-lg font-semibold">{movie.title}</h3>
+                <p className="text-sm text-gray-300">📅 {movie.year}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="p-6">
+        <h2 className="text-2xl font-bold mb-4">Próximos Estrenos</h2>
+        <p className="text-gray-400">Las películas más esperadas.</p>
+        <div className="flex gap-4 overflow-x-auto">
+          {filteredMovies
+            .filter((movie) => movie.year >= 2024)
+            .map((movie) => (
+              <div
+                key={movie.id}
+                className="min-w-[200px] bg-[#141414] rounded-lg overflow-hidden"
+              >
+                <img
+                  src={movie.image}
+                  alt={movie.title}
+                  className="w-full h-40 object-cover"
+                />
+                <div className="p-3">
+                  <h3 className="text-lg font-semibold">{movie.title}</h3>
+                  <p className="text-sm text-gray-300">📅 {movie.year}</p>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+
+      <div className="p-6">
+        <h2 className="text-2xl font-bold mb-4">Actores Destacados</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {[
+            "Keanu Reeves",
+            "Leonardo DiCaprio",
+            "Scarlett Johansson",
+            "Tom Hardy",
+          ].map((actor, index) => (
+            <div key={index} className="bg-[#222] p-4 rounded-lg text-center">
+              <h3 className="text-lg font-semibold">{actor}</h3>
             </div>
           ))}
         </div>
