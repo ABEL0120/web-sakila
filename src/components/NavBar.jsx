@@ -16,6 +16,9 @@ export default function NavBar() {
             <Link to="/Home" className="hover:text-red-600 transition">
               Inicio
             </Link>
+            <Link to="/Renta" className="hover:text-red-600 transition">
+              Renta
+            </Link>
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -52,9 +55,6 @@ export default function NavBar() {
                 </div>
               )}
             </div>
-            <Link to="/Renta" className="hover:text-red-600 transition">
-              Renta
-            </Link>
             <Link to="/servicios" className="hover:text-red-600 transition">
               Servicios
             </Link>

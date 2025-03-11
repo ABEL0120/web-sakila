@@ -1,52 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import PaymentModal from "./PaymentModal";
+import RentedMovies from "./RentedMovies";
 
 export default function RentMovies() {
+  const [moviesForRent, setMoviesForRent] = useState([]);
   const [rentedMovies, setRentedMovies] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [isPaying, setIsPaying] = useState(false);
 
-  const moviesForRent = [
-    {
-      id: 1,
-      title: "Dune: Parte Dos",
-      price: "$3.99",
-      image: "/images/dune2.jpg",
-      description:
-        "La continuación de la épica historia de Paul Atreides en un mundo desértico lleno de intrigas y poder.",
-    },
-    {
-      id: 2,
-      title: "Spider-Man: No Way Home",
-      price: "$2.99",
-      image: "/images/spiderman.jpg",
-      description:
-        "El multiverso se descontrola cuando Peter Parker enfrenta a villanos de diferentes realidades.",
-    },
-    {
-      id: 3,
-      title: "The Batman",
-      price: "$3.49",
-      image: "/images/batman.jpg",
-      description:
-        "Un thriller oscuro y detectivesco con Robert Pattinson como el Caballero de la Noche.",
-    },
-    {
-      id: 4,
-      title: "Fast X",
-      price: "$2.49",
-      image: "/images/fastx.jpg",
-      description:
-        "La saga de Rápidos y Furiosos alcanza su máximo nivel de adrenalina y velocidad.",
-    },
-  ];
+  useEffect(() => {
+    fetch(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${
+        import.meta.env.VITE_API_KEY
+      }&language=es-ES`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        const shuffledMovies = data.results
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 12);
+        const movies = shuffledMovies.map((movie) => ({
+          id: movie.id,
+          title: movie.title,
+          price: `$${(Math.random() * (5.99 - 2.99) + 2.99).toFixed(2)}`,
+          image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+          description: movie.overview,
+          rating: movie.vote_average,
+          releaseDate: movie.release_date,
+        }));
+        setMoviesForRent(movies);
+      })
+      .catch((error) => console.error("Error fetching movies: ", error));
+  }, []);
 
-  const handlePrepareToRent = (movie) => {
-    setRentedMovies([...rentedMovies, movie]);
-    alert(`Has rentado la película: ${movie.title} por ${movie.price}`);
+  const handleRent = (movie) => {
+    if (rentedMovies.some((rented) => rented.id === movie.id)) {
+      alert("Ya has rentado esta película.");
+      return;
+    }
+    setSelectedMovie(movie);
+    setIsPaying(true);
   };
 
-  const handleRentMovies = () => {
-    setRentedMovies([]);
-    alert("¡Procesando pago de rentas! Disfruta tus películas.");
+  const completePayment = (paymentMethod) => {
+    if (!paymentMethod) {
+      alert("Selecciona un método de pago");
+      return;
+    }
+    setRentedMovies([...rentedMovies, selectedMovie]);
+    setIsPaying(false);
+    setSelectedMovie(null);
   };
 
   return (
@@ -79,16 +83,17 @@ export default function RentMovies() {
               <h3 className="text-2xl font-bold text-white mb-2">
                 {movie.title}
               </h3>
-              <p className="text-sm text-gray-400 mb-4 flex-grow">
-                {movie.description}
+              <p className="text-gray-400 text-sm mb-2">{movie.description}</p>
+              <p className="text-gray-400 text-sm mb-2">
+                ⭐ {movie.rating} | 📅 {movie.releaseDate}
               </p>
               <div className="flex items-center justify-between mt-auto">
                 <span className="text-xl font-bold text-red-500">
                   {movie.price}
                 </span>
                 <button
-                  className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-all text-white shadow-md"
-                  onClick={() => handlePrepareToRent(movie)}
+                  className="px-3 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-all text-white shadow-md"
+                  onClick={() => handleRent(movie)}
                 >
                   Rentar ahora
                 </button>
@@ -98,37 +103,15 @@ export default function RentMovies() {
         ))}
       </div>
 
-      {rentedMovies.length > 0 && (
-        <div className="mt-10 w-full max-w-5xl relative">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Tus Películas Rentadas
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {rentedMovies.map((movie, index) => (
-              <div
-                key={index}
-                className="bg-[#222] rounded-lg p-4 flex items-center gap-4"
-              >
-                <img
-                  src={movie.image}
-                  alt={movie.title}
-                  className="w-20 h-20 object-cover rounded-lg"
-                />
-                <div>
-                  <h3 className="text-lg font-semibold">{movie.title}</h3>
-                  <p className="text-sm text-gray-400">{movie.price}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <button
-            className="fixed bottom-5 right-5 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all"
-            onClick={() => handleRentMovies()}
-          >
-            Pagar Rentas
-          </button>
-        </div>
+      {isPaying && (
+        <PaymentModal
+          movie={selectedMovie}
+          onComplete={completePayment}
+          setIsPaying={setIsPaying}
+        />
       )}
+
+      <RentedMovies rentedMovies={rentedMovies} />
     </div>
   );
 }
