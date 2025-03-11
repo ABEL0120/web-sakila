@@ -153,7 +153,9 @@ export default function MovieApp() {
         <h2 className="text-2xl font-bold mb-4">Explora por Categoría</h2>
         {Object.entries(movies).map(([genre, movieList]) => (
           <motion.div key={genre} className="mb-6">
-            <h3 className="text-xl font-semibold text-red-600 mb-2">{genre}</h3>
+            <h3 className="text-4xl font-semibold text-red-600 mb-2">
+              {genre}
+            </h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               {movieList.map((movie) => (
                 <motion.div
@@ -192,11 +194,11 @@ export default function MovieApp() {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.3 }}
-            className="relative bg-[#141414] p-6 rounded-lg max-w-lg text-center w-full"
+            className="relative bg-[#141414] p-6 rounded-lg max-w-lg text-center w-full shadow-lg"
           >
             <button
               onClick={() => setSelectedMovie(null)}
-              className="absolute top-2 right-2 text-gray-300 hover:text-white text-2xl"
+              className="absolute top-2 right-2 text-gray-300 hover:text-red-500 text-2xl transition"
             >
               ×
             </button>
@@ -206,17 +208,20 @@ export default function MovieApp() {
               alt={selectedMovie.title}
               className="w-3/4 mx-auto h-auto object-cover rounded-lg mb-4"
             />
-            <p className="text-gray-300 text-lg mb-2">
+
+            {/* Descripción con SCROLL */}
+            <div className="max-h-[200px] overflow-y-scroll text-gray-300 text-lg mb-2 p-2 bg-black rounded-md">
               {selectedMovie.description}
-            </p>
-            <p className="text-gray-400">
+            </div>
+
+            <p className="text-gray-400 mt-2">
               ⭐ {selectedMovie.rating} | 📅 {selectedMovie.year}
             </p>
             <a
               href={selectedMovie.trailer}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg inline-block"
+              className="mt-4 px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg inline-block transition"
             >
               Ver Trailer
             </a>
