@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 
@@ -11,6 +11,8 @@ export default function PaymentModal({ movie, onComplete, setIsPaying }) {
     formState: { errors },
   } = useForm();
 
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(null);
   const paymentMethod = watch("paymentMethod");
 
   const validateCard = (data) => {
@@ -38,7 +40,18 @@ export default function PaymentModal({ movie, onComplete, setIsPaying }) {
     }
 
     if (validateCard(data)) {
-      onComplete(data.paymentMethod);
+      setIsProcessing(true);
+      setTimeout(() => {
+        const isSuccess = Math.random() > 0.2; // 80% éxito, 20% error
+        setPaymentSuccess(isSuccess);
+        setIsProcessing(false);
+        if (isSuccess) {
+          setTimeout(() => {
+            onComplete(data.paymentMethod);
+            setIsPaying(false);
+          }, 2000);
+        }
+      }, 3000);
     }
   };
 
@@ -55,7 +68,6 @@ export default function PaymentModal({ movie, onComplete, setIsPaying }) {
         animate={{ scale: 1 }}
         exit={{ scale: 0.8 }}
       >
-        {/* Botón de Cerrar con animación */}
         <motion.button
           onClick={() => setIsPaying(false)}
           className="absolute top-3 right-3 text-gray-300 hover:text-white text-2xl focus:outline-none"
@@ -70,104 +82,102 @@ export default function PaymentModal({ movie, onComplete, setIsPaying }) {
         </h2>
         <p className="text-gray-400 mb-4">Precio: {movie?.price}</p>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <label className="block text-white mb-2">
-            Selecciona un método de pago:
-          </label>
-          <select
-            className="w-full p-2 bg-[#222] text-white rounded-md"
-            {...register("paymentMethod")}
+        {isProcessing ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="text-center text-white"
           >
-            <option value="">Selecciona...</option>
-            <option value="tarjeta">Tarjeta de crédito/débito</option>
-            <option value="paypal">PayPal</option>
-            <option value="crypto">Criptomonedas</option>
-          </select>
-          {errors.paymentMethod && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.paymentMethod.message}
-            </p>
-          )}
-
-          {paymentMethod === "tarjeta" && (
+            <p>Procesando pago...</p>
             <motion.div
-              className="mt-4"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <label className="block text-white mb-1">
-                Número de tarjeta:
-              </label>
-              <input
-                type="text"
-                className="w-full p-2 bg-[#222] text-white rounded-md"
-                placeholder="1234 5678 9101 1121"
-                maxLength="16"
-                {...register("cardNumber", {
-                  pattern: {
-                    value: /^\d{16}$/,
-                    message: "Número de tarjeta inválido",
-                  },
-                })}
-              />
-              {errors.cardNumber && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.cardNumber.message}
-                </p>
-              )}
-
-              <div className="flex gap-2 mt-2">
-                <div className="w-1/2">
-                  <label className="block text-white mb-1">Expiración:</label>
-                  <input
-                    type="text"
-                    className="w-full p-2 bg-[#222] text-white rounded-md"
-                    placeholder="MM/YY"
-                    maxLength="5"
-                    {...register("expiryDate", {
-                      pattern: {
-                        value: /^(0[1-9]|1[0-2])\/\d{2}$/,
-                        message: "Formato inválido (MM/YY)",
-                      },
-                    })}
-                  />
-                  {errors.expiryDate && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.expiryDate.message}
-                    </p>
-                  )}
-                </div>
-                <div className="w-1/2">
-                  <label className="block text-white mb-1">CVV:</label>
-                  <input
-                    type="text"
-                    className="w-full p-2 bg-[#222] text-white rounded-md"
-                    placeholder="123"
-                    maxLength="4"
-                    {...register("cvv", {
-                      pattern: {
-                        value: /^\d{3,4}$/,
-                        message: "CVV inválido",
-                      },
-                    })}
-                  />
-                  {errors.cvv && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.cvv.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          <button
-            type="submit"
-            className="mt-4 w-full py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all"
+              className="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full mx-auto mt-4"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            />
+          </motion.div>
+        ) : paymentSuccess !== null ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="text-center text-white"
           >
-            Confirmar pago
-          </button>
-        </form>
+            {paymentSuccess ? (
+              <p className="text-green-400 text-lg">Pago exitoso</p>
+            ) : (
+              <p className="text-red-400 text-lg">Pago fallido ❌</p>
+            )}
+          </motion.div>
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <label className="block text-white mb-2">
+              Selecciona un método de pago:
+            </label>
+            <select
+              className="w-full p-2 bg-[#222] text-white rounded-md"
+              {...register("paymentMethod")}
+            >
+              <option value="">Selecciona...</option>
+              <option value="tarjeta">Tarjeta de crédito/débito</option>
+              <option value="paypal">PayPal</option>
+              <option value="crypto">Criptomonedas</option>
+            </select>
+            {errors.paymentMethod && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.paymentMethod.message}
+              </p>
+            )}
+
+            {paymentMethod === "tarjeta" && (
+              <motion.div
+                className="mt-4"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <label className="block text-white mb-1">
+                  Número de tarjeta:
+                </label>
+                <input
+                  type="text"
+                  className="w-full p-2 bg-[#222] text-white rounded-md"
+                  placeholder="1234 5678 9101 1121"
+                  maxLength="16"
+                  {...register("cardNumber")}
+                />
+                <div className="flex gap-2 mt-2">
+                  <div className="w-1/2">
+                    <label className="block text-white mb-1">Expiración:</label>
+                    <input
+                      type="text"
+                      className="w-full p-2 bg-[#222] text-white rounded-md"
+                      placeholder="MM/YY"
+                      maxLength="5"
+                      {...register("expiryDate")}
+                    />
+                  </div>
+                  <div className="w-1/2">
+                    <label className="block text-white mb-1">CVV:</label>
+                    <input
+                      type="text"
+                      className="w-full p-2 bg-[#222] text-white rounded-md"
+                      placeholder="123"
+                      maxLength="4"
+                      {...register("cvv")}
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            <button
+              type="submit"
+              className="mt-4 w-full py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all"
+            >
+              Confirmar pago
+            </button>
+          </form>
+        )}
       </motion.div>
     </motion.div>
   );

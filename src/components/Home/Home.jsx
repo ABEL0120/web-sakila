@@ -74,7 +74,7 @@ export default function MovieApp() {
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="flex justify-between items-center p-4 bg-[#141414]"
+        className="flex justify-between items-center p-4 bg-black"
       >
         <h1 className="text-3xl font-bold text-red-600">Inicio</h1>
       </motion.header>
@@ -209,8 +209,7 @@ export default function MovieApp() {
               className="w-3/4 mx-auto h-auto object-cover rounded-lg mb-4"
             />
 
-            {/* Descripción con SCROLL */}
-            <div className="max-h-[200px] overflow-y-scroll text-gray-300 text-lg mb-2 p-2 bg-black rounded-md">
+            <div className="max-h-[200px] overflow-y-auto text-gray-300 text-lg mb-2 p-2 bg-black rounded-md">
               {selectedMovie.description}
             </div>
 
