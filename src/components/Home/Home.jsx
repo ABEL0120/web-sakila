@@ -84,12 +84,12 @@ export default function MovieApp() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
-          className="relative w-full h-[500px] bg-[#141414]"
+          className="relative w-full max-h-[500px] bg-black flex justify-center items-center"
         >
           <img
             src={featuredMovie.image}
             alt={featuredMovie.title}
-            className="w-full h-full object-cover opacity-80"
+            className="w-full max-h-[500px] object-contain opacity-90"
           />
           <div className="absolute bottom-0 left-0 w-full p-6 bg-black bg-opacity-60">
             <motion.h2
