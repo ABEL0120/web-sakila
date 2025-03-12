@@ -79,6 +79,17 @@ export default function NavBar() {
               </button>
             </div>
 
+            <div className="flex items-center justify-between p-4 bg-[#181818]">
+              <div className="flex items-center gap-2">
+                <img
+                  src="https://i.pravatar.cc/300"
+                  className="rounded-full w-8 h-8"
+                  alt="perfil"
+                />
+                <span className="font-semibold">Alexander Pierce</span>
+              </div>
+            </div>
+
             {/* Barra de búsqueda */}
             <div className="p-3">
               <div className="relative">
