@@ -248,7 +248,9 @@ export default function MovieApp() {
         transition={{ duration: 1 }}
         className="p-6"
       >
-        <h2 className="text-2xl font-bold mb-4 text-red-600">Noticias y Novedades</h2>
+        <h2 className="text-2xl font-bold mb-4 text-red-600">
+          Noticias y Novedades
+        </h2>
         <div className="bg-[#1a1a1a] p-4 rounded-lg shadow-lg space-y-3">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
