@@ -119,25 +119,34 @@ export default function MovieApp() {
         transition={{ duration: 1 }}
         className="p-6"
       >
-        <h2 className="text-2xl font-bold mb-4">
+        <h2 className="text-2xl font-bold mb-2">
           Recomendaciones Personalizadas
         </h2>
         <p className="text-gray-400 mb-4">Basado en tu historial y gustos</p>
-        <div className="flex gap-4 overflow-x-auto">
+        <div className="flex gap-6 overflow-x-auto no-scrollbar px-1 pb-2">
           {movies["Drama"]?.slice(0, 5).map((movie) => (
             <motion.div
               key={movie.id}
               whileHover={{ scale: 1.05 }}
-              className="bg-[#222] rounded-lg overflow-hidden min-w-[200px] cursor-pointer"
+              className="bg-[#222] rounded-xl overflow-hidden min-w-[220px] max-w-[220px] shadow-md cursor-pointer transition-transform"
             >
-              <img
-                src={movie.image}
-                alt={movie.title}
-                className="w-full h-40 object-cover"
-              />
-              <div className="p-3">
-                <h3 className="text-lg font-semibold">{movie.title}</h3>
-                <p className="text-sm text-gray-300">⭐ {movie.rating}</p>
+              <div className="w-full aspect-[2/3] overflow-hidden">
+                <img
+                  src={movie.image}
+                  alt={movie.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-3 flex flex-col">
+                <h3 className="text-lg font-semibold leading-tight">
+                  {movie.title}
+                </h3>
+                <div className="flex items-center gap-1 text-yellow-400 mt-1">
+                  <i className="fas fa-star"></i>
+                  <p className="text-sm">
+                    ⭐ {parseFloat(movie.rating).toFixed(1)}
+                  </p>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -153,26 +162,31 @@ export default function MovieApp() {
         <h2 className="text-2xl font-bold mb-4">Explora por Categoría</h2>
         {Object.entries(movies).map(([genre, movieList]) => (
           <motion.div key={genre} className="mb-6">
-            <h3 className="text-4xl font-semibold text-red-600 mb-2">
+            <h3 className="text-4xl font-semibold text-red-600 mb-3">
               {genre}
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
               {movieList.map((movie) => (
                 <motion.div
                   key={movie.id}
                   whileHover={{ scale: 1.05 }}
-                  className="relative bg-[#141414] rounded-lg overflow-hidden cursor-pointer"
+                  className="relative bg-[#141414] rounded-lg overflow-hidden shadow-lg cursor-pointer transition-all"
                   onClick={() => setSelectedMovie(movie)}
                 >
-                  <img
-                    src={movie.image}
-                    alt={movie.title}
-                    className="w-full h-60 object-cover"
-                  />
-                  <div className="absolute bottom-0 left-0 w-full p-3 bg-black bg-opacity-60">
-                    <h3 className="text-lg font-semibold">{movie.title}</h3>
-                    <p className="text-sm text-gray-300">
-                      ⭐ {movie.rating} | 📅 {movie.year}
+                  <div className="w-full overflow-hidden">
+                    <img
+                      src={movie.image}
+                      alt={movie.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute bottom-0 left-0 w-full p-3 bg-black bg-opacity-70">
+                    <h3 className="text-lg font-semibold leading-tight">
+                      {movie.title}
+                    </h3>
+                    <p className="text-sm text-yellow-400 flex items-center gap-1">
+                      <i className="fas fa-star"></i>{" "}
+                      {parseFloat(movie.rating).toFixed(1)} | 📅 {movie.year}
                     </p>
                   </div>
                 </motion.div>
@@ -194,7 +208,7 @@ export default function MovieApp() {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.3 }}
-            className="relative bg-[#141414] p-6 rounded-lg max-w-lg text-center w-full shadow-lg"
+            className="relative bg-black p-6 rounded-lg max-w-lg text-center w-full shadow-lg"
           >
             <button
               onClick={() => setSelectedMovie(null)}
@@ -234,14 +248,68 @@ export default function MovieApp() {
         transition={{ duration: 1 }}
         className="p-6"
       >
-        <h2 className="text-2xl font-bold mb-4">Noticias y Novedades</h2>
-        <div className="bg-[#222] p-4 rounded-lg">
-          <p className="text-gray-300">
-            🎬 Nueva película anunciada: "Dune 3" se estrenará en 2026.
-          </p>
-          <p className="text-gray-300">
-            🍿 Evento especial de proyección IMAX en cines seleccionados.
-          </p>
+        <h2 className="text-2xl font-bold mb-4 text-red-600">Noticias y Novedades</h2>
+        <div className="bg-[#1a1a1a] p-4 rounded-lg shadow-lg space-y-3">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center gap-3 text-gray-300"
+          >
+            <span className="text-red-500 text-lg">🎬</span>
+            <p>
+              <strong>"Dune 3"</strong> ha sido confirmada y llegará a los cines
+              en <span className="text-yellow-400">2026</span>.
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex items-center gap-3 text-gray-300"
+          >
+            <span className="text-blue-400 text-lg">🍿</span>
+            <p>
+              Evento especial de proyección <strong>IMAX</strong> en{" "}
+              <span className="text-yellow-400">cines seleccionados</span>.
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            className="flex items-center gap-3 text-gray-300"
+          >
+            <span className="text-green-400 text-lg">🎟️</span>
+            <p>
+              <strong>Preventa de entradas</strong> para "Avengers: Secret Wars"
+              ya está disponible.
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex items-center gap-3 text-gray-300"
+          >
+            <span className="text-purple-400 text-lg">🔥</span>
+            <p>
+              La serie <strong>"Stranger Things 5"</strong> ha revelado su
+              primer tráiler.
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9 }}
+            className="flex items-center gap-3 text-gray-300"
+          >
+            <span className="text-yellow-300 text-lg">🏆</span>
+            <p>
+              <strong>"Oppenheimer"</strong> lidera las nominaciones en los{" "}
+              <span className="text-yellow-400">Premios Oscar 2025</span>.
+            </p>
+          </motion.div>
         </div>
       </motion.div>
     </div>
