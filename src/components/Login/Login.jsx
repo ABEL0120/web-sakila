@@ -22,7 +22,7 @@ function Login() {
   });
 
   const handleRouter = () => {
-    navigate("/Registro");
+    navigate("/register");
   };
 
   const onSubmit = async (data) => {

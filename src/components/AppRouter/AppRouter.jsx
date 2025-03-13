@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import Home from "../Home/Home";
+import RegisterFilm from "../Forms/FilmEntry";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import PublicRoute from "../PublicRoute/PublicRoute";
 import { useAuthStore } from "../../utils/auth/auth";
@@ -17,6 +18,7 @@ const publicRoutes = [
 const privateRoutes = [
   { path: "/Home", element: <Home /> },
   { path: "/Renta", element: <RentMovies /> },
+  { path: "/Films", element: <RegisterFilm /> },
 ];
 
 const AppRouter = () => {
