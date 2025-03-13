@@ -9,7 +9,7 @@ export default function RegisterFilm() {
   const [search, setSearch] = useState("");
   const [filteredFilms, setFilteredFilms] = useState([]);
   const [languages, setLanguages] = useState([]);
-  const [ratings, setRatings] = useState(["G", "PG", "PG-13", "R", "NC-17"]);
+  const [ratings, setRatings] = useState(["G", "PG", "PG_13", "R", "NC_17"]);
 
   useEffect(() => {
     const fetchFilms = async () => {
@@ -53,7 +53,7 @@ export default function RegisterFilm() {
       );
       setFilteredFilms(filtered);
     }
-  }, [search, films]);
+  }, [search]);
 
   const {
     register,
@@ -78,12 +78,27 @@ export default function RegisterFilm() {
 
   const onSubmit = async (data) => {
     try {
+      const body = {
+        title: data.title,
+        description: data.description,
+        release_year: Number(data.release_year),
+        language_id: Number(data.language_id),
+        original_language_id: Number(data.original_language_id),
+        rental_duration: Number(data.rental_duration),
+        rental_rate: Number(data.rental_rate),
+        length: Number(data.length),
+        replacement_cost: Number(data.replacement_cost),
+        rating: data.rating,
+        special_features: data.special_features,
+        last_update: new Date(data.last_update),
+      }
+
       const response = await fetch("http://localhost:3000/api/films", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(body),
       });
 
       if (!response.ok) {
