@@ -69,7 +69,7 @@ export default function MovieApp() {
   }, []);
 
   return (
-    <div className="flex flex-col bg-black text-white w-full h-full overflow-hidden pt-20">
+    <div className="flex flex-col bg-black text-white w-full h-full overflow-hidden pt-20 pl-40">
       <motion.header
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
