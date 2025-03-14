@@ -135,16 +135,7 @@ export default function NavBar() {
                       className="bg-gray-800 text-white ml-6 rounded-md"
                     >
                       <li className="px-4 py-2 hover:bg-red-700">
-                        <Link to="/accion">Acción</Link>
-                      </li>
-                      <li className="px-4 py-2 hover:bg-red-700">
-                        <Link to="/sci-fi">Sci-Fi</Link>
-                      </li>
-                      <li className="px-4 py-2 hover:bg-red-700">
-                        <Link to="/drama">Drama</Link>
-                      </li>
-                      <li className="px-4 py-2 hover:bg-red-700">
-                        <Link to="/fantasia">Fantasía</Link>
+                        <Link to="/Films">Films</Link>
                       </li>
                     </motion.ul>
                   )}
