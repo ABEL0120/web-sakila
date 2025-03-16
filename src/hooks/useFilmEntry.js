@@ -42,25 +42,47 @@ export const useFilmEntry = () => {
     const newFilm = await response.json();
     setFilms((prevFilms) => [...prevFilms, newFilm]);
     setFilteredFilms((prevFilms) => [...prevFilms, newFilm]);
+    setSearch(""); // Reinicia el término de búsqueda
     setError(null);
     alert("Película agregada exitosamente.");
   };
 
   const editFilm = async (data) => {
-    data.film_id = film.film_id;
-    const response = await updateFilm(data);
-    if (!response.ok) {
-      throw new Error("Error al editar la película.");
-    }
-    const index = filteredFilms.findIndex((f) => f.film_id === data.film_id);
-    if (index !== -1) {
-      const dataFiltered = filteredFilms.map((f) =>
-        f.film_id === data.film_id ? { ...f, ...data } : f
+    try {
+      data.film_id = film.film_id; // Asegúrate de incluir el ID de la película
+      const response = await updateFilm(data);
+      if (!response.ok) {
+        throw new Error("Error al editar la película.");
+      }
+
+      // Actualiza la lista completa de películas
+      const updatedFilm = await response.json();
+      setFilms((prevFilms) =>
+        prevFilms.map((f) =>
+          f.film_id === updatedFilm.film_id ? updatedFilm : f
+        )
       );
-      setFilms(dataFiltered);
-      setFilteredFilms(dataFiltered);
+
+      // Sincroniza `filteredFilms` en función del término de búsqueda actual
+      setFilteredFilms((prevFiltered) =>
+        search === ""
+          ? [
+              ...films.map((f) =>
+                f.film_id === updatedFilm.film_id ? updatedFilm : f
+              ),
+            ]
+          : films
+              .map((f) => (f.film_id === updatedFilm.film_id ? updatedFilm : f))
+              .filter((film) =>
+                film.title.toLowerCase().includes(search.toLowerCase())
+              )
+      );
+
+      setError(null);
+      alert("Película editada exitosamente.");
+    } catch (error) {
+      setError("Hubo un problema al editar la película: " + error.message);
     }
-    alert("Película editada exitosamente.");
   };
 
   const deleteFilm = async (data) => {
@@ -148,7 +170,7 @@ export const useFilmEntry = () => {
       );
       setFilteredFilms(filtered);
     }
-  }, [search]);
+  }, [search, films]); // Agrega `films` como dependencia
 
   const onSubmit = handleSubmit(async (data) => {
     try {

@@ -4,7 +4,7 @@ import TableForms from "../tableForms";
 import { useFilmEntry } from "../../hooks/useFilmEntry";
 export default function RegisterFilm() {
   const {
-    setSearch,
+      setSearch,
     tableActions,
     addModal,
     onSubmit,
