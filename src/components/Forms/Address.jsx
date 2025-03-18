@@ -1,8 +1,8 @@
 import React from "react";
 import ModalForms from "../modalForms";
 import TableForms from "../tableForms";
-import { useActors } from "../../hooks/useActors";
-export default function ActorsForms() {
+import { useAddress } from "../../hooks/useAddress";
+export default function AddressForms() {
   const {
     setSearch,
     tableActions,
@@ -10,49 +10,135 @@ export default function ActorsForms() {
     onSubmit,
     register,
     errors,
-    filteredActors,
+    cities,
+    filteredAddresses,
     search,
     action,
     actionsTitles,
     isLoadingButton,
     success,
     error,
-  } = useActors();
+  } = useAddress();
 
   const childrenModal = () => {
     return (
       <fieldset
-        id="fs_actors"
+        id="fs_address"
         disabled={actionsTitles[action].isDisabled}
         className="grid grid-cols-2 gap-6"
       >
         <div>
           <label className="block text-sm font-medium text-gray-300">
-            Nombre
+            Dirección
           </label>
           <input
             type="text"
-            {...register("first_name", { required: true })}
+            {...register("address", { required: true })}
             className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
           />
-          {errors.title && (
+          {errors.address && (
             <span className="text-red-500 text-xs">Requerido</span>
           )}
         </div>
+
         <div>
           <label className="block text-sm font-medium text-gray-300">
-            Apellidos
+            Dirección 2
           </label>
           <input
             type="text"
-            {...register("last_name", { required: true })}
+            {...register("address2")}
             className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
           />
-          {errors.title && (
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-300">
+            Distrito
+          </label>
+          <input
+            type="text"
+            {...register("district", { required: true })}
+            className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
+          />
+          {errors.district && (
             <span className="text-red-500 text-xs">Requerido</span>
           )}
         </div>
+
         <div>
+          <label className="block text-sm font-medium text-gray-300">
+            ID de la Ciudad
+          </label>
+          <select
+            {...register("city_id", { required: true })}
+            className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
+          >
+            <option value="">Selecciona una ciudad</option>
+            {cities.map((city) => (
+              <option key={city.city_id} value={city.city_id}>
+                {city.city}
+              </option>
+            ))}
+          </select>
+          {errors.language_id && (
+            <span className="text-red-500 text-xs">Requerido</span>
+          )}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-300">
+            Código Postal
+          </label>
+          <input
+            type="text"
+            maxLength="10"
+            {...register("postal_code")}
+            className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-300">
+            Teléfono
+          </label>
+          <input
+            type="text"
+            maxLength="20"
+            {...register("phone", { required: true })}
+            className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
+          />
+          {errors.phone && (
+            <span className="text-red-500 text-xs">Requerido</span>
+          )}
+        </div>
+
+        <div className="col-span-2">
+          <label className="block text-sm font-medium text-gray-300">
+            Ubicación (Latitud, Longitud)
+          </label>
+          <div className="grid grid-cols-2 gap-4">
+            <input
+              type="number"
+              step="0.000001"
+              {...register("latitude", { required: true })}
+              placeholder="Latitud"
+              className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
+            />
+            <input
+              type="number"
+              step="0.000001"
+              {...register("longitude", { required: true })}
+              placeholder="Longitud"
+              className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
+            />
+          </div>
+          {errors.latitude && errors.longitude && (
+            <span className="text-red-500 text-xs">Requerido</span>
+          )}
+        </div>
+
+        <div className="col-span-2">
           <label className="block text-sm font-medium text-gray-300">
             Última Actualización
           </label>
@@ -70,8 +156,9 @@ export default function ActorsForms() {
     return (
       <>
         <tr className="bg-gray-800">
-          <th className="border border-gray-700 px-4 py-2">Nombre</th>
-          <th className="border border-gray-700 px-4 py-2">Apellidos</th>
+          <th className="border border-gray-700 px-4 py-2">Dirección</th>
+          <th className="border border-gray-700 px-4 py-2">Distrito</th>
+          <th className="border border-gray-700 px-4 py-2">Telefono</th>
           <th className="border border-gray-700 px-4 py-2">Acciones</th>
         </tr>
       </>
@@ -82,10 +169,13 @@ export default function ActorsForms() {
     return (
       <>
         <td className="border border-gray-700 px-4 py-2">
-          {film.first_name || "Sin Nombre"}
+          {film.address || "Sin dirección"}
         </td>
         <td className="border border-gray-700 px-4 py-2">
-          {film.last_name || "Sin Apellidos"}
+          {film.district || "Sin distrito"}
+        </td>
+        <td className="border border-gray-700 px-4 py-2">
+          {film.phone || "Sin numero de telefono"}
         </td>
       </>
     );
@@ -97,13 +187,13 @@ export default function ActorsForms() {
       style={{ backgroundImage: "url('/images/netflix-bg.jpg')" }}
     >
       <h2 className="text-3xl font-bold text-center text-red-600 mb-6">
-        Actores
+        Direcciones
       </h2>
       <button
         onClick={() => addModal()}
         className="py-2 px-4 bg-red-600 text-white rounded-lg"
       >
-        Agregar Actor
+        Agregar Dirección
       </button>
       <ModalForms
         title={actionsTitles[action].title}
@@ -115,8 +205,8 @@ export default function ActorsForms() {
         error={error}
       />
       <TableForms
-        title="Lista de Actores"
-        filteredData={filteredActors}
+        title="Lista de Direcciones"
+        filteredData={filteredAddresses}
         search={search}
         setSearch={setSearch}
         tableActions={tableActions}

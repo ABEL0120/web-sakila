@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { delActor, registerActor, updateActor } from "../utils/Forms/actors";
-export const useActors = () => {
-  const [filteredActors, setFilteredActors] = useState([]);
-  const [actors, setActors] = useState([]);
-  const [actor, setActor] = useState({});
+import { deleteApi, registerApi, updateApi } from "../utils/Forms/api";
+export const useAddress = () => {
+  const [filteredAddresses, setFilteredAddresses] = useState([]);
+  const [addresses, setAddresses] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [address, setAddress] = useState({});
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [search, setSearch] = useState("");
@@ -17,100 +18,128 @@ export const useActors = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      first_name: "",
-      last_name: "",
+      address: "",
+      address2: "",
+      district: "",
+      city_id: "",
+      postal_code: "",
+      phone: "",
+      location: "",
       last_update: "",
     },
   });
 
-  const addActor = async (data) => {
-    const response = await registerActor(data);
+  const addAddress = async (data) => {
+    const response = await registerApi(data, "address");
     if (!response.ok) {
-      throw new Error("Error al agregar el actor.");
+      throw new Error("Error al agregar la dirección.");
     }
-    const newActor = await response.json();
-    setActors((prevActors) => [...prevActors, newActor]);
-    setFilteredActors((prevActors) => [...prevActors, newActor]);
+    const newAddress = await response.json();
+    setAddresses((prevAddresses) => [...prevAddresses, newAddress]);
+    setFilteredAddresses((prevAddresses) => [...prevAddresses, newAddress]);
     setError(null);
-    alert("Actor agregado exitosamente.");
+    alert("Dirección agregado exitosamente.");
   };
 
-  const editActor = async (data) => {
-    data.actor_id = actor.actor_id;
-    const response = await updateActor(data);
+  const editAddress = async (data) => {
+    data.address_id = address.address_id;
+    const response = await updateApi(data, "address", data.address_id);
     if (!response.ok) {
-      throw new Error("Error al editar el actor.");
+      throw new Error("Error al editar la dirección.");
     }
-    const index = filteredActors.findIndex((f) => f.actor_id === data.actor_id);
-    if (index !== -1) {
-      const dataFiltered = filteredActors.map((f) =>
-        f.actor_id === data.actor_id ? { ...f, ...data } : f
-      );
-      setActors(dataFiltered);
-      setFilteredActors(dataFiltered);
-    }
-    alert("Actor editado exitosamente.");
-  };
-
-  const deleteActor = async (data) => {
-    data.actor_id = actor.actor_id;
-    const response = await delActor(data);
-    if (!response.ok) {
-      throw new Error("Error al eliminar la actor.");
-    }
-    const dataFiltered = filteredActors.filter(
-      (f) => !(f.actor_id === data.actor_id)
+    const index = filteredAddresses.findIndex(
+      (f) => f.address_id === data.address_id
     );
-    setActors(dataFiltered);
-    setFilteredActors(dataFiltered);
-    alert("Actor eliminado exitosamente.");
+    if (index !== -1) {
+      const dataFiltered = filteredAddresses.map((f) =>
+        f.address_id === data.address_id ? { ...f, ...data } : f
+      );
+      setAddresses(dataFiltered);
+      setFilteredAddresses(dataFiltered);
+    }
+    alert("Dirección editado exitosamente.");
+  };
+
+  const deleteAddress = async (data) => {
+    data.address_id = address.address_id;
+    const response = await deleteApi(data, "address", data.address_id);
+    if (!response.ok) {
+      throw new Error("Error al eliminar la dirección.");
+    }
+    const dataFiltered = filteredAddresses.filter(
+      (f) => !(f.address_id === data.address_id)
+    );
+    setAddresses(dataFiltered);
+    setFilteredAddresses(dataFiltered);
+    alert("Dirección eliminado exitosamente.");
   };
 
   const actionsApi = {
-    add: addActor,
-    edit: editActor,
-    delete: deleteActor,
+    add: addAddress,
+    edit: editAddress,
+    delete: deleteAddress,
   };
 
   const actionsTitles = {
-    add: { title: "Agregar Actor", isDisabled: false },
-    edit: { title: "Editar Actor", isDisabled: false },
-    delete: { title: "Borrar Actor", isDisabled: true },
+    add: { title: "Agregar Dirección", isDisabled: false },
+    edit: { title: "Editar Dirección", isDisabled: false },
+    delete: { title: "Borrar Dirección", isDisabled: true },
   };
 
   useEffect(() => {
     reset({
-      first_name: actor.first_name,
-      last_name: actor.last_name,
-      last_update: actor.last_update,
+      address: address.address,
+      address2: address.address2,
+      district: address.district,
+      city_id: address.city_id,
+      postal_code: address.postal_code,
+      phone: address.phone,
+      location: address.location,
+      last_update: address.last_update,
     });
-  }, [actor, reset]);
+  }, [address, reset]);
 
   useEffect(() => {
-    const fetchActors = async () => {
+    const fetchAddresses = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/actors");
+        const response = await fetch("http://localhost:3000/api/address");
         if (!response.ok) {
-          throw new Error("Error al obtener los actores.");
+          throw new Error("Error al obtener las direcciones.");
         }
         const data = await response.json();
-        setActors(data);
-        setFilteredActors(data);
+        setAddresses(data);
+        setFilteredAddresses(data);
       } catch (err) {
         setError(err.message);
       }
     };
-    fetchActors();
+    fetchAddresses();
+  }, []);
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/cities");
+        if (!response.ok) {
+          throw new Error("Error al obtener las ciudades.");
+        }
+        const data = await response.json();
+        setCities(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    fetchCities();
   }, []);
 
   useEffect(() => {
     if (search === "") {
-      setFilteredActors(actors);
+      setFilteredAddresses(addresses);
     } else {
-      const filtered = actors.filter((actor) =>
-        actor.title.toLowerCase().includes(search.toLowerCase())
+      const filtered = addresses.filter((address) =>
+        address.address.toLowerCase().includes(search.toLowerCase())
       );
-      setFilteredActors(filtered);
+      setFilteredAddresses(filtered);
     }
   }, [search]);
 
@@ -118,15 +147,20 @@ export const useActors = () => {
     try {
       setIsLoadingButton(true);
       const body = {
-        first_name: data.first_name,
-        last_name: data.last_name,
+        address: data.address,
+        address2: data.address2 || null,
+        district: data.district,
+        city_id: Number(data.city_id),
+        postal_code: data.postal_code || null,
+        phone: data.phone,
+        location: "POINT(19.432608 -99.133209)",
         last_update: new Date(data.last_update || Date.now()),
       };
       const apiFunction = actionsApi[action];
       await apiFunction(body);
       showModal(false);
     } catch (error) {
-      setError("Hubo un problema al enviar el actor: " + error.message);
+      setError("Hubo un problema al enviar la direccón: " + error.message);
       setSuccess(null);
     } finally {
       setIsLoadingButton(false);
@@ -140,6 +174,7 @@ export const useActors = () => {
   };
 
   const addModal = () => {
+    setSearch("");
     reset({
       first_name: "",
       last_name: "",
@@ -149,8 +184,9 @@ export const useActors = () => {
     showModal(true);
   };
 
-  const tableActions = (actor, action) => {
-    setActor(actor);
+  const tableActions = (address, action) => {
+    setSearch("");
+    setAddress(address);
     setAction(action);
     showModal(true);
   };
@@ -162,7 +198,8 @@ export const useActors = () => {
     onSubmit,
     register,
     errors,
-    filteredActors,
+    cities,
+    filteredAddresses,
     search,
     action,
     actionsTitles,

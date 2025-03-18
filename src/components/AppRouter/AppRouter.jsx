@@ -10,6 +10,7 @@ import { useAuthStore } from "../../utils/auth/auth";
 import Layout from "../Layout";
 import RentMovies from "../RentMovies/page";
 import ActorsForms from "../Forms/Actors";
+import AddressForms from "../Forms/Address";
 
 const publicRoutes = [
   { path: "/Login", element: <Login /> },
@@ -21,6 +22,7 @@ const privateRoutes = [
   { path: "/Renta", element: <RentMovies /> },
   { path: "/Films", element: <RegisterFilm /> },
   { path: "/Actors", element: <ActorsForms /> },
+  { path: "/Address", element: <AddressForms /> },
 ];
 
 const AppRouter = () => {
