@@ -24,7 +24,7 @@ export const useActors = () => {
   });
 
   const addActor = async (data) => {
-    const response = await registerApi(data, "actor");
+    const response = await registerApi(data, "actors");
     if (!response.ok) {
       throw new Error("Error al agregar el actor.");
     }
@@ -37,7 +37,7 @@ export const useActors = () => {
 
   const editActor = async (data) => {
     data.actor_id = actor.actor_id;
-    const response = await updateApi(data, "actor", data.actor_id);
+    const response = await updateApi(data, "actors", data.actor_id);
     if (!response.ok) {
       throw new Error("Error al editar el actor.");
     }
@@ -54,7 +54,7 @@ export const useActors = () => {
 
   const deleteActor = async (data) => {
     data.actor_id = actor.actor_id;
-    const response = await deleteApi(data, "actor", data.actor_id);
+    const response = await deleteApi(data, "actors", data.actor_id);
     if (!response.ok) {
       throw new Error("Error al eliminar la actor.");
     }

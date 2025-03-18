@@ -35,7 +35,7 @@ export const useFilmEntry = () => {
   });
 
   const addFilm = async (data) => {
-    const response = await registerApi(data, "film");
+    const response = await registerApi(data, "films");
     if (!response.ok) {
       throw new Error("Error al agregar la película.");
     }
@@ -50,7 +50,7 @@ export const useFilmEntry = () => {
   const editFilm = async (data) => {
     try {
       data.film_id = film.film_id; // Asegúrate de incluir el ID de la película
-      const response = await updateApi(data, "film", data.film_id);
+      const response = await updateApi(data, "films", data.film_id);
       if (!response.ok) {
         throw new Error("Error al editar la película.");
       }
@@ -87,7 +87,7 @@ export const useFilmEntry = () => {
 
   const deleteFilm = async (data) => {
     data.film_id = film.film_id;
-    const response = await deleteApi(data, "film", data.film_id);
+    const response = await deleteApi(data, "films", data.film_id);
     if (!response.ok) {
       throw new Error("Error al eliminar la película.");
     }
