@@ -135,10 +135,34 @@ export default function NavBar() {
                       className="bg-gray-800 text-white ml-6 rounded-md"
                     >
                       <li className="px-4 py-2 hover:bg-red-700">
-                        <Link to="/Films">Films</Link>
+                        <Link to="/Films">Peliculas</Link>
                       </li>
                       <li className="px-4 py-2 hover:bg-red-700">
-                        <Link to="/Actors">Actors</Link>
+                        <Link to="/Actors">Actores</Link>
+                      </li>
+                      <li className="px-4 py-2 hover:bg-red-700">
+                        <Link to="/Address">Direcciones</Link>
+                      </li>
+                      <li className="px-4 py-2 hover:bg-red-700">
+                        <Link to="/Categories">Categorias</Link>
+                      </li>
+                      <li className="px-4 py-2 hover:bg-red-700">
+                        <Link to="/Cities">Ciudades</Link>
+                      </li>
+                      <li className="px-4 py-2 hover:bg-red-700">
+                        <Link to="/Countries">Paises</Link>
+                      </li>
+                      <li className="px-4 py-2 hover:bg-red-700">
+                        <Link to="/Customers">Clientes</Link>
+                      </li>
+                      <li className="px-4 py-2 hover:bg-red-700">
+                        <Link to="/FilmActors">Actor-Pelicula</Link>
+                      </li>
+                      <li className="px-4 py-2 hover:bg-red-700">
+                        <Link to="/FilmCategories">Categoria-Pelicula</Link>
+                      </li>
+                      <li className="px-4 py-2 hover:bg-red-700">
+                        <Link to="/FilmTexts">Titulo-Pelicula</Link>
                       </li>
                     </motion.ul>
                   )}
