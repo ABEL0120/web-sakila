@@ -108,7 +108,7 @@ export const useActors = () => {
       setFilteredActors(actors);
     } else {
       const filtered = actors.filter((actor) =>
-        actor.title.toLowerCase().includes(search.toLowerCase())
+        actor.first_name.toLowerCase().includes(search.toLowerCase())
       );
       setFilteredActors(filtered);
     }
@@ -140,6 +140,7 @@ export const useActors = () => {
   };
 
   const addModal = () => {
+    setSearch("");
     reset({
       first_name: "",
       last_name: "",
@@ -150,6 +151,7 @@ export const useActors = () => {
   };
 
   const tableActions = (actor, action) => {
+    setSearch("");
     setActor(actor);
     setAction(action);
     showModal(true);
