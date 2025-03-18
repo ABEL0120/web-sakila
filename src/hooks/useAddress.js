@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { deleteApi, registerApi, updateApi } from "../utils/Forms/api";
+import { delActor, registerActor, updateActor } from "../utils/Forms/actors";
 export const useActors = () => {
   const [filteredActors, setFilteredActors] = useState([]);
   const [actors, setActors] = useState([]);
@@ -24,7 +24,7 @@ export const useActors = () => {
   });
 
   const addActor = async (data) => {
-    const response = await registerApi(data, "actor");
+    const response = await registerActor(data);
     if (!response.ok) {
       throw new Error("Error al agregar el actor.");
     }
@@ -37,7 +37,7 @@ export const useActors = () => {
 
   const editActor = async (data) => {
     data.actor_id = actor.actor_id;
-    const response = await updateApi(data, "actor", data.actor_id);
+    const response = await updateActor(data);
     if (!response.ok) {
       throw new Error("Error al editar el actor.");
     }
@@ -54,7 +54,7 @@ export const useActors = () => {
 
   const deleteActor = async (data) => {
     data.actor_id = actor.actor_id;
-    const response = await deleteApi(data, "actor", data.actor_id);
+    const response = await delActor(data);
     if (!response.ok) {
       throw new Error("Error al eliminar la actor.");
     }

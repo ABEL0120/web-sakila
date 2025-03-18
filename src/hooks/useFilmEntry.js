@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { delFilm, registerFilm, updateFilm } from "../utils/Forms/filmEntry";
+import { deleteApi, registerApi, updateApi } from "../utils/Forms/api";
 export const useFilmEntry = () => {
   const [filteredFilms, setFilteredFilms] = useState([]);
   const [films, setFilms] = useState([]);
@@ -35,7 +35,7 @@ export const useFilmEntry = () => {
   });
 
   const addFilm = async (data) => {
-    const response = await registerFilm(data);
+    const response = await registerApi(data, "film");
     if (!response.ok) {
       throw new Error("Error al agregar la película.");
     }
@@ -50,7 +50,7 @@ export const useFilmEntry = () => {
   const editFilm = async (data) => {
     try {
       data.film_id = film.film_id; // Asegúrate de incluir el ID de la película
-      const response = await updateFilm(data);
+      const response = await updateApi(data, "film", data.film_id);
       if (!response.ok) {
         throw new Error("Error al editar la película.");
       }
@@ -87,7 +87,7 @@ export const useFilmEntry = () => {
 
   const deleteFilm = async (data) => {
     data.film_id = film.film_id;
-    const response = await delFilm(data);
+    const response = await deleteApi(data, "film", data.film_id);
     if (!response.ok) {
       throw new Error("Error al eliminar la película.");
     }
