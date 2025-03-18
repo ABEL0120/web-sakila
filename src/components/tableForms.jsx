@@ -2,7 +2,7 @@ import React from "react";
 
 export default function TableForms({
   title,
-  filteredFilms,
+  filteredData,
   search,
   setSearch,
   tableActions,
@@ -26,20 +26,20 @@ export default function TableForms({
         <table className="w-full text-white border border-gray-700">
           <thead>{childrenColumns()}</thead>
           <tbody>
-            {filteredFilms.map((film, index) => (
+            {filteredData.map((item, index) => (
               <tr key={index} className="bg-gray-900">
                 {/* CAMPOS DE MIERDA */}
-                {childrenFields(film)}
+                {childrenFields(item)}
                 {/* ACCIONES */}
                 <td className="border border-gray-700 px-4 py-2 flex space-x-2">
                   <button
-                    onClick={() => tableActions(film, "edit")}
+                    onClick={() => tableActions(item, "edit")}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg"
                   >
                     Editar
                   </button>
                   <button
-                    onClick={() => tableActions(film, "delete")}
+                    onClick={() => tableActions(item, "delete")}
                     className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg"
                   >
                     Eliminar

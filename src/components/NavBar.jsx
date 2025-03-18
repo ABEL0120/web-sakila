@@ -137,6 +137,9 @@ export default function NavBar() {
                       <li className="px-4 py-2 hover:bg-red-700">
                         <Link to="/Films">Films</Link>
                       </li>
+                      <li className="px-4 py-2 hover:bg-red-700">
+                        <Link to="/Actors">Actors</Link>
+                      </li>
                     </motion.ul>
                   )}
                 </AnimatePresence>

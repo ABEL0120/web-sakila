@@ -165,7 +165,7 @@ export const useFilmEntry = () => {
         replacement_cost: Number(data.replacement_cost),
         rating: data.rating,
         special_features: data.special_features,
-        last_update: new Date(data.last_update),
+        last_update: new Date(data.last_update || Date.now()),
       };
       const apiFunction = actionsApi[action];
       await apiFunction(body);

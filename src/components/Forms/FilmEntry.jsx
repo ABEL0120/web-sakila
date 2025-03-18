@@ -251,7 +251,7 @@ export default function RegisterFilm() {
       />
       <TableForms
         title="Lista de Películas"
-        filteredFilms={filteredFilms}
+        filteredData={filteredFilms}
         search={search}
         setSearch={setSearch}
         tableActions={tableActions}
