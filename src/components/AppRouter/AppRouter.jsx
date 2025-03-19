@@ -18,6 +18,12 @@ import CustomersForms from "../Forms/Customers";
 import FilmActorsForms from "../Forms/FilmActor";
 import FilmCategoryForms from "../Forms/FilmCategory";
 import FilmTextForms from "../Forms/FilmText";
+import InventoryForms from "../Forms/Inventory";
+import LanguageForms from "../Forms/Language";
+import PaymentForms from "../Forms/Payment";
+import RentalForms from "../Forms/Rental";
+import StaffForms from "../Forms/Staff";
+import StoreForms from "../Forms/Store";
 
 const publicRoutes = [
   { path: "/Login", element: <Login /> },
@@ -37,6 +43,12 @@ const privateRoutes = [
   { path: "/FilmActors", element: <FilmActorsForms /> },
   { path: "/FilmCategories", element: <FilmCategoryForms /> },
   { path: "/FilmTexts", element: <FilmTextForms /> },
+  { path: "/Inventory", element: <InventoryForms /> },  
+  { path: "/Languages", element: <LanguageForms /> },
+  { path: "/Payments", element: <PaymentForms /> },
+  { path: "/Rentals", element: <RentalForms /> },
+  { path: "/Staff", element: <StaffForms /> },
+  { path: "/Stores", element: <StoreForms /> },
 ];
 
 const AppRouter = () => {
