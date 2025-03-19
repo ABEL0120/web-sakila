@@ -5,8 +5,8 @@ import { deleteApi, registerApi, updateApi } from "../utils/Forms/api";
 export const useInventory = () => {
   const [filteredInventory, setFilteredInventory] = useState([]);
   const [inventory, setInventory] = useState([]);
-  const [films, setFilms] = useState([]); // Lista de películas
-  const [stores, setStores] = useState([]); // Lista de tiendas
+  const [films, setFilms] = useState([]); 
+  const [stores, setStores] = useState([]);
   const [item, setItem] = useState({});
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);

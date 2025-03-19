@@ -19,7 +19,7 @@ export default function InventoryForms() {
     success,
     error,
     films,
-    stores, // Asegúrate de que los datos de películas y tiendas estén disponibles
+    stores,
   } = useInventory();
 
   const childrenModal = () => {
@@ -82,7 +82,6 @@ export default function InventoryForms() {
   };
 
   const childrenFields = (item) => {
-    // Busca el nombre de la película y la tienda usando sus IDs
     const film = films.find((film) => film.film_id === item.film_id);
     const store = stores.find((store) => store.store_id === item.store_id);
 
