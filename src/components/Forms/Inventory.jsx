@@ -18,6 +18,8 @@ export default function InventoryForms() {
     isLoadingButton,
     success,
     error,
+    films,
+    stores, // Asegúrate de que los datos de películas y tiendas estén disponibles
   } = useInventory();
 
   const childrenModal = () => {
@@ -71,8 +73,8 @@ export default function InventoryForms() {
     return (
       <>
         <tr className="bg-gray-800">
-          <th className="border border-gray-700 px-4 py-2">ID Película</th>
-          <th className="border border-gray-700 px-4 py-2">ID Tienda</th>
+          <th className="border border-gray-700 px-4 py-2">Película</th>
+          <th className="border border-gray-700 px-4 py-2">Tienda</th>
           <th className="border border-gray-700 px-4 py-2">Acciones</th>
         </tr>
       </>
@@ -80,10 +82,18 @@ export default function InventoryForms() {
   };
 
   const childrenFields = (item) => {
+    // Busca el nombre de la película y la tienda usando sus IDs
+    const film = films.find((film) => film.film_id === item.film_id);
+    const store = stores.find((store) => store.store_id === item.store_id);
+
     return (
       <>
-        <td className="border border-gray-700 px-4 py-2">{item.film_id}</td>
-        <td className="border border-gray-700 px-4 py-2">{item.store_id}</td>
+        <td className="border border-gray-700 px-4 py-2">
+          {film ? film.title : "Desconocido"}
+        </td>
+        <td className="border border-gray-700 px-4 py-2">
+          {store ? store.store_id : "Desconocido"}
+        </td>
       </>
     );
   };

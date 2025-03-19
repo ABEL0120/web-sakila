@@ -5,6 +5,8 @@ import { deleteApi, registerApi, updateApi } from "../utils/Forms/api";
 export const useInventory = () => {
   const [filteredInventory, setFilteredInventory] = useState([]);
   const [inventory, setInventory] = useState([]);
+  const [films, setFilms] = useState([]); // Lista de películas
+  const [stores, setStores] = useState([]); // Lista de tiendas
   const [item, setItem] = useState({});
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -43,7 +45,7 @@ export const useInventory = () => {
     if (!response.ok) {
       throw new Error("Error al editar el inventario.");
     }
-    const updatedList = filteredInventory.map((inv) =>
+    const updatedList = inventory.map((inv) =>
       inv.inventory_id === data.inventory_id ? { ...inv, ...data } : inv
     );
     setInventory(updatedList);
@@ -57,7 +59,7 @@ export const useInventory = () => {
     if (!response.ok) {
       throw new Error("Error al eliminar el inventario.");
     }
-    const updatedList = filteredInventory.filter(
+    const updatedList = inventory.filter(
       (inv) => inv.inventory_id !== data.inventory_id
     );
     setInventory(updatedList);
@@ -99,19 +101,57 @@ export const useInventory = () => {
         setError(err.message);
       }
     };
+
+    const fetchFilms = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/films");
+        if (!response.ok) {
+          throw new Error("Error al obtener las películas.");
+        }
+        const data = await response.json();
+        setFilms(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    const fetchStores = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/stores");
+        if (!response.ok) {
+          throw new Error("Error al obtener las tiendas.");
+        }
+        const data = await response.json();
+        setStores(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
     fetchInventory();
+    fetchFilms();
+    fetchStores();
   }, []);
 
   useEffect(() => {
     if (search === "") {
       setFilteredInventory(inventory);
     } else {
-      const filtered = inventory.filter((inv) =>
-        inv.film_id.toString().includes(search)
-      );
+      const filtered = inventory.filter((inv) => {
+        const film = films.find((film) => film.film_id === inv.film_id);
+        const store = stores.find((store) => store.store_id === inv.store_id);
+        
+        const filmTitle = film?.title ? film.title.toLowerCase() : "";
+        const storeName = store?.name ? store.name.toLowerCase() : "";
+      
+        return (
+          filmTitle.includes(search.toLowerCase()) || 
+          storeName.includes(search.toLowerCase())
+        );
+      });      
       setFilteredInventory(filtered);
     }
-  }, [search]);
+  }, [search, inventory, films, stores]);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
@@ -170,5 +210,7 @@ export const useInventory = () => {
     isLoadingButton,
     success,
     error,
+    films,
+    stores,
   };
 };
