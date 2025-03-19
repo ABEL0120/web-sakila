@@ -1,7 +1,7 @@
 import React from "react";
 import ModalForms from "../modalForms";
 import TableForms from "../tableForms";
-import { useStores } from "../../hooks/useStores";
+import { useStores } from "../../hooks/useStore";
 
 export default function StoreForms() {
   const {
