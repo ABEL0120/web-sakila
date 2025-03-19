@@ -155,7 +155,7 @@ export default function NavBar() {
                       <li className="px-4 py-2 hover:bg-red-700">
                         <Link to="/Customers">Clientes</Link>
                       </li>
-                      <li className="px-4 py-2 hover:bg-red-700">
+                      {/* <li className="px-4 py-2 hover:bg-red-700">
                         <Link to="/FilmActors">Actor-Pelicula</Link>
                       </li>
                       <li className="px-4 py-2 hover:bg-red-700">
@@ -163,7 +163,7 @@ export default function NavBar() {
                       </li>
                       <li className="px-4 py-2 hover:bg-red-700">
                         <Link to="/FilmTexts">Titulo-Pelicula</Link>
-                      </li>
+                      </li> */}
                       <li className="px-4 py-2 hover:bg-red-700">
                         <Link to="/Inventory">Inventario</Link>
                       </li>
