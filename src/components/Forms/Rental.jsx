@@ -33,7 +33,7 @@ export default function RentalForms() {
           </label>
           <input
             type="datetime-local"
-            {...register("rental_date", { required: true })}
+            {...register("rental_date", { required: false })}
             className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
           />
           {errors.rental_date && (

@@ -83,7 +83,7 @@ export default function PaymentForms() {
           </label>
           <input
             type="datetime-local"
-            {...register("payment_date", { required: true })}
+            {...register("payment_date", { required: false })}
             className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
           />
           {errors.payment_date && (
