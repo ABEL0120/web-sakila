@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { deleteApi, registerApi, updateApi } from "../utils/Forms/api";
+import { formatDateForInput } from "../utils/global";
 export const useFilmEntry = () => {
   const [filteredFilms, setFilteredFilms] = useState([]);
   const [films, setFilms] = useState([]);
@@ -124,7 +125,7 @@ export const useFilmEntry = () => {
       replacement_cost: film.replacement_cost,
       rating: film.rating,
       special_features: film.special_features,
-      last_update: film.last_update,
+      last_update: formatDateForInput(film.last_update),
     });
   }, [film, reset]);
 

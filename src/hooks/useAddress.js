@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { deleteApi, registerApi, updateApi } from "../utils/Forms/api";
+import { formatDateForInput } from "../utils/global";
 export const useAddress = () => {
   const [filteredAddresses, setFilteredAddresses] = useState([]);
   const [addresses, setAddresses] = useState([]);
@@ -95,7 +96,7 @@ export const useAddress = () => {
       postal_code: address.postal_code,
       phone: address.phone,
       location: address.location,
-      last_update: address.last_update,
+      last_update: formatDateForInput(address.last_update),
     });
   }, [address, reset]);
 

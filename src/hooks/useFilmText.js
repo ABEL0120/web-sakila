@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { deleteApi, registerApi, updateApi } from "../utils/Forms/api";
 
+
 export const useFilmText = () => {
   const [filteredFilmTexts, setFilteredFilmTexts] = useState([]);
   const [filmTexts, setFilmTexts] = useState([]);

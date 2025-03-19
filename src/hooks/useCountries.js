@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { deleteApi, registerApi, updateApi } from "../utils/Forms/api";
+import { formatDateForInput } from "../utils/global";
 
 export const useCountries = () => {
   const [filteredCountries, setFilteredCountries] = useState([]);
@@ -79,7 +80,7 @@ export const useCountries = () => {
   useEffect(() => {
     reset({
       country: country.country,
-      last_update: country.last_update,
+      last_update: formatDateForInput(country.last_update),
     });
   }, [country, reset]);
 

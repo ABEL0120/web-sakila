@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { deleteApi, registerApi, updateApi } from "../utils/Forms/api";
+import { formatDateForInput } from "../utils/global";
 export const useActors = () => {
   const [filteredActors, setFilteredActors] = useState([]);
   const [actors, setActors] = useState([]);
@@ -82,7 +83,7 @@ export const useActors = () => {
     reset({
       first_name: actor.first_name,
       last_name: actor.last_name,
-      last_update: actor.last_update,
+      last_update: formatDateForInput(actor.last_update),
     });
   }, [actor, reset]);
 

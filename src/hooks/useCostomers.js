@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { deleteApi, registerApi, updateApi } from "../utils/Forms/api";
+import { formatDateForInput } from "../utils/global";
 
 export const useCustomers = () => {
   const [filteredCustomers, setFilteredCustomers] = useState([]);
@@ -91,9 +92,9 @@ export const useCustomers = () => {
       last_name: customer.last_name,
       email: customer.email,
       address_id: customer.address_id,
-      active: customer.active,
-      create_date: customer.create_date,
-      last_update: customer.last_update,
+      active: Number(customer.active),
+      create_date: formatDateForInput(customer.create_date),
+      last_update: formatDateForInput(customer.last_update),
     });
   }, [customer, reset]);
 

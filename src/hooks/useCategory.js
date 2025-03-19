@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { deleteApi, registerApi, updateApi } from "../utils/Forms/api";
+import { formatDateForInput } from "../utils/global";
 export const useCategories = () => {
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -82,7 +83,7 @@ export const useCategories = () => {
   useEffect(() => {
     reset({
       name: category.name,
-      last_update: category.last_update,
+      last_update: formatDateForInput(category.last_update),
     });
   }, [category, reset]);
 
