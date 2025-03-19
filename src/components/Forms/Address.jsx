@@ -120,15 +120,15 @@ export default function AddressForms() {
           <div className="grid grid-cols-2 gap-4">
             <input
               type="number"
-              step="0.000001"
-              {...register("latitude", { required: true })}
+              step="0.0001"
+              {...register("latitude", { required: false })}
               placeholder="Latitud"
               className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
             />
             <input
               type="number"
-              step="0.000001"
-              {...register("longitude", { required: true })}
+              step="0.001"
+              {...register("longitude", { required: false })}
               placeholder="Longitud"
               className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
             />

@@ -43,8 +43,8 @@ export const useAddress = () => {
   };
 
   const editAddress = async (data) => {
+    const response = await updateApi(data, "address", address.address_id);
     data.address_id = address.address_id;
-    const response = await updateApi(data, "address", data.address_id);
     if (!response.ok) {
       throw new Error("Error al editar la dirección.");
     }
@@ -151,10 +151,12 @@ export const useAddress = () => {
         address: data.address,
         address2: data.address2 || null,
         district: data.district,
-        city_id: Number(data.city_id),
+        city: {
+          connect: { city_id: Number(data.city_id) },
+        },
         postal_code: data.postal_code || null,
         phone: data.phone,
-        location: "POINT(19.432608 -99.133209)",
+        // location: Number(19.43),
         last_update: new Date(data.last_update || Date.now()),
       };
       const apiFunction = actionsApi[action];
