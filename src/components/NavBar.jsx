@@ -66,7 +66,7 @@ export default function NavBar() {
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0 w-64 h-full bg-[#222] text-white shadow-lg z-[150] flex flex-col"
+            className="fixed top-0 left-0 w-64 h-full bg-[#222] text-white shadow-lg z-[150] flex flex-col overflow-y-auto"
           >
             {/* Header Sidebar */}
             <div className="flex items-center justify-between p-4 bg-[#181818]">

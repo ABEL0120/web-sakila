@@ -220,10 +220,10 @@ export default function MovieApp() {
             <img
               src={selectedMovie.image}
               alt={selectedMovie.title}
-              className="w-3/4 mx-auto h-auto object-cover rounded-lg mb-4"
+              className="w-3/4 mx-auto h-80 object-cover rounded-lg mb-4"
             />
 
-            <div className="max-h-[200px] overflow-y-auto text-gray-300 text-lg mb-2 p-2 bg-black rounded-md">
+            <div className="max-h-[100px] overflow-y-auto text-gray-300 text-lg mb-2 p-2 bg-black rounded-md">
               {selectedMovie.description}
             </div>
 
