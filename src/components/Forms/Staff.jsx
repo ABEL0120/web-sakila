@@ -76,6 +76,45 @@ export default function StaffForms() {
             <span className="text-red-500 text-xs">Requerido</span>
           )}
         </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-300">
+            Contraseña
+          </label>
+          <input
+            type="password"
+            {...register("password", { required: false })}
+            className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
+          />
+          {errors.password && (
+            <span className="text-red-500 text-xs">Requerido</span>
+          )}    
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-300">
+            Dirección ID
+          </label>
+          <input
+            type="number"
+            {...register("address_id", { required: true })}
+            className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
+          />
+          {errors.address_id && (
+            <span className="text-red-500 text-xs">Requerido</span>
+          )}
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-300">
+            Tienda ID
+          </label>
+          <input
+            type="number"
+            {...register("store_id", { required: true })}
+            className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-red-600"
+          />
+          {errors.store_id && (
+            <span className="text-red-500 text-xs">Requerido</span>
+          )}
+        </div>
       </fieldset>
     );
   };
@@ -87,6 +126,7 @@ export default function StaffForms() {
           <th className="border border-gray-700 px-4 py-2">Nombre</th>
           <th className="border border-gray-700 px-4 py-2">Apellido</th>
           <th className="border border-gray-700 px-4 py-2">Usuario</th>
+          <th className="border border-gray-700 px-4 py-2">Tienda ID</th>
           <th className="border border-gray-700 px-4 py-2">Acciones</th>
         </tr>
       </>
@@ -99,6 +139,7 @@ export default function StaffForms() {
         <td className="border border-gray-700 px-4 py-2">{staff.first_name}</td>
         <td className="border border-gray-700 px-4 py-2">{staff.last_name}</td>
         <td className="border border-gray-700 px-4 py-2">{staff.username}</td>
+        <td className="border border-gray-700 px-4 py-2">{staff.store_id}</td>
       </>
     );
   };

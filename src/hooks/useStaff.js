@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { deleteApi, registerApi, updateApi } from "../utils/Forms/api";
+import bcrypt from "bcryptjs";
 
 export const useStaff = () => {
   const [filteredStaff, setFilteredStaff] = useState([]);
@@ -11,7 +12,7 @@ export const useStaff = () => {
   const [search, setSearch] = useState("");
   const [isLoadingButton, setIsLoadingButton] = useState(false);
   const [action, setAction] = useState("add");
-  
+
   const {
     register,
     handleSubmit,
@@ -26,6 +27,10 @@ export const useStaff = () => {
       password: "",
       active: true,
       last_update: "",
+      address_id: "",
+      store_id: "",
+      staff_id: "",
+      picture: null,
     },
   });
 
@@ -77,11 +82,11 @@ export const useStaff = () => {
     edit: editStaff,
     delete: deleteStaff,
   };
-
+  
   const actionsTitles = {
-    add: { title: "Agregar Empleado", isDisabled: false },
-    edit: { title: "Editar Empleado", isDisabled: false },
-    delete: { title: "Borrar Empleado", isDisabled: true },
+    add: { title: "Agregar Personal", isDisabled: false },
+    edit: { title: "Editar Personal", isDisabled: false },
+    delete: { title: "Borrar Personal", isDisabled: true },
   };
 
   useEffect(() => {
@@ -93,6 +98,9 @@ export const useStaff = () => {
       password: "",
       active: staffMember.active,
       last_update: staffMember.last_update,
+      address_id: staffMember.address_id,
+      store_id: staffMember.store_id,
+      picture: staffMember.picture,
     });
   }, [staffMember, reset]);
 
@@ -127,14 +135,20 @@ export const useStaff = () => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setIsLoadingButton(true);
+
+      const hashedPassword = await bcrypt.hash(data.password, 10)
+
       const body = {
         first_name: data.first_name,
         last_name: data.last_name,
         email: data.email,
         username: data.username,
-        password: data.password,
+        password: hashedPassword,
         active: data.active,
         last_update: new Date(data.last_update || Date.now()),
+        address_id: parseInt(data.address_id),
+        store_id: parseInt(data.store_id),
+        picture: data.picture,
       };
       const apiFunction = actionsApi[action];
       await apiFunction(body);
@@ -163,6 +177,10 @@ export const useStaff = () => {
       password: "",
       active: true,
       last_update: "",
+      address_id: "",
+      store_id: "",
+      staff_id: "",
+      picture: null,
     });
     setAction("add");
     showModal(true);

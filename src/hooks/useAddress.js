@@ -95,7 +95,7 @@ export const useAddress = () => {
       city_id: address.city_id,
       postal_code: address.postal_code,
       phone: address.phone,
-      location: address.location,
+      location: address.latitude + address.longitude,
       last_update: formatDateForInput(address.last_update),
     });
   }, [address, reset]);
@@ -147,13 +147,15 @@ export const useAddress = () => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setIsLoadingButton(true);
+      const latitude = data.latitude;
+      const longitude = data.longitude;
+      const coordenadas = `POINT(${longitude} ${latitude})`;
       const body = {
         address: data.address,
         address2: data.address2 || null,
         district: data.district,
-        city: {
-          connect: { city_id: Number(data.city_id) },
-        },
+        city_id: Number(data.city_id),
+        location: coordenadas,
         postal_code: data.postal_code || null,
         phone: data.phone,
         // location: Number(19.43),
